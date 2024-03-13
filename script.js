@@ -1,4 +1,4 @@
-var ws = new WebSocket("ws://localhost");
+var ws = new WebSocket("wss://blooketbot.glitch.me/");
 var botinfo = {};
 var gameobject = {};
 var cheats = {"Hack":[{
@@ -42,6 +42,14 @@ type:"button",name:"Crash host(pirate)",action:function(a){setUserVal("d/t","t")
 type:"select",name:"Steal Doubloons From",computed:function(sel){if(Object.keys(gameobject.c).length===Array.from(sel.children).length){return false;}return Object.keys(gameobject.c);},action:function(d){setUserVal("tat",`${d}:${prompt("How many doubloons do you want to steal?")}`);}
 },{
 type:"input",name:"Set Doubloons",action:function(d){setUserVal("d",d);}
+}],"Dino":[{
+type:"button",name:"Crash host(dino)",action:function(a){setUserVal("f/t","t");a.innerText="Crashing";}
+},{
+type:"input",name:"Set Fossils",action:function(d){setUserVal("f",d);}
+},{
+type:"input",name:"Set Cheating(true/false)",action:function(d){setUserVal("ic",d);}
+},{
+type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 }]};
 var global = [{
 type:"input",name:"Set Blook",action:function(b){setUserVal("b",b);}
@@ -85,7 +93,7 @@ function joinGame(code,name){
 }
 function onFirstData(d){
 console.log("Game type: " + d.s.t);
-switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
+switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;case "Dino":renderCheats("Dino");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
 }
 function onData(d){
 if(!d){console.log("Game disconnected!");errorBar("Game crashed!");leaveGame();finishG();return;}
