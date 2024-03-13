@@ -1,4 +1,9 @@
-var ws = new WebSocket("wss://blooketbot.glitch.me/");
+var ws = new WebSocket((window.location.href.startsWith("https")?"wss":"ws") + "://" + window.location.host + "/");
+
+//BLOOK DEFINITIONS START
+var blooks = ["Lucky Hamster","Chocolate Rabbit","Wise Owl","Frost Wreath","Tropical Globe","New York Snow Globe","London Snow Globe","Japan Snow Globe","Egypt Snow Globe","Paris Snow Globe","Red Sweater Snowman","Blue Sweater Snowman","Elf Sweater Snowman","Santa Claws","Cookies Combo","Chilly Flamingo","Snowy Bush Monster","Nutcracker Koala","Hamsta Claus","Sandwich","Light Blue","Black","Red","Purple","Pink","Orange","Lime","Green","Teal","Tan","Maroon","Gray","Mint","Salmon","Burgandy","Baby Blue","Dust","Brown","Dull Blue","Yellow","Blue","Pumpkin","Swamp Monster","Frankenstein","Vampire","Zombie","Mummy","Caramel Apple","Candy Corn","Werewolf","Ghost","Haunted Pumpkin","Pumpkin Cookie","Ghost Cookie","Red Gummy Bear","Green Gummy Bear","Blue Gummy Bear","Chick Chicken","Chicken Chick","Raccoon Bandit","Owl Sheriff","Vampire Frog","Pumpkin King","Anaconda Wizard","Spooky Pumpkin","Spooky Mummy","Spooky Ghost","Red Astronaut","Blue Astronaut","Green Astronaut","Pink Astronaut","Orange Astronaut","Yellow Astronaut","Black Astronaut","Purple Astronaut","Brown Astronaut","Cyan Astronaut","Lime Astronaut","Lovely Planet","Tim the Alien","Rainbow Astronaut","Rainbow Jellyfish","Blizzard Clownfish","Lovely Frog","Lucky Frog","Spring Frog","Poison Dart Frog","Lemon Crab","Pirate Pufferfish","Donut Blobfish","Crimson Octopus","Rainbow Narwhal","Agent Owl","Party Pig","Master Elf","Phantom King","Rainbow Panda","White Peacock","Tiger Zebra","Lovely Peacock","Ice Slime","Frozen Fossil","Ice Crab","Teal Platypus"];
+//BLOOK DEFINITIONS END
+
 var botinfo = {};
 var gameobject = {};
 var cheats = {"Hack":[{
@@ -52,7 +57,7 @@ type:"input",name:"Set Cheating(true/false)",action:function(d){setUserVal("ic",
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 }]};
 var global = [{
-type:"input",name:"Set Blook",action:function(b){setUserVal("b",b);}
+type:"staticsel",name:"Set Blook",values:blooks,action:function(val){setUserVal("b",val);}
 },{
 type:"input",name:"Set Banner",action:function(b){setUserVal("bg",b);}
 },{
@@ -70,7 +75,7 @@ ws.onmessage = function(m){
         break;
         case "bc":
 	botinfo.connected = msg.v;
-	if(msg.v){gameobject={};}
+	if(msg.v){gameobject={};updateStatus("Joining game...");}else{updateStatus("Bot Disconnected");}
 	msg.v?onJoin(botinfo.gc,botinfo.name):onLeave(botinfo.gc,botinfo.name);
         console.log(msg.v?"Bot Connected!":"Bot Disconnected!");
         break;
@@ -85,6 +90,10 @@ ws.onmessage = function(m){
 }
 ws.onclose = function(){
 errorBar("WebSocket disconnected! Refresh to try again!");
+updateStatus("Disconnected");
+}
+ws.onopen = function(){
+  updateStatus("Connected");
 }
 ws.sendJson = function(msg){this.send(JSON.stringify(msg));}
 function joinGame(code,name){
@@ -130,13 +139,14 @@ var a = document.createElement("div");
 a.className="cheatcontainer";
 return a;
 }
+function updateStatus(text){var s = document.getElementById("status");s.innerText="Status: "+text;}
 function createButton(text,clickaction){var button = document.createElement("button");button.innerText=text;button.addEventListener("click",function(){clickaction(button);});return button;}
 function renderCheats(gm){
 var c = document.getElementById("ctrlpanel");
 var codep = document.getElementById("cc");
 codep.style.display="none";c.appendChild(createNormText("Bot Successful! Type: " + gm));c.appendChild(createNormText("Cheats: ")); var chc = createCheatContainer();
 cheats[gm].forEach(e=>{
-switch(e.type){case "button":chc.appendChild(createButton(e.name,e.action));break;case "input":chc.appendChild(createInp(e.name,e.action));break;case "select":chc.appendChild(createSel(e.name,e.computed,e.action));break;default:console.log("Unsupported!");break;}
+switch(e.type){case "button":chc.appendChild(createButton(e.name,e.action));break;case "input":chc.appendChild(createInp(e.name,e.action));break;case "select":chc.appendChild(createSel(e.name,e.computed,e.action));break;case "staticsel":chc.appendChild(createSel(e.name,e.values,e.action));break;default:console.log("Unsupported!");break;}
 });
 c.appendChild(chc);
 c.appendChild(createNormText("Global Cheats:"));
@@ -147,16 +157,17 @@ var cc = document.getElementById("cc");
 cp.innerHTML="";cc.style.display="block";errorBar("Game Ended!");}
 function createInp(text,action){var inp = document.createElement("div");inp.className="inputcontainer";var ti = document.createElement("div");ti.innerText=text+":";inp.appendChild(ti);var iv = document.createElement("input");inp.appendChild(iv);inp.addEventListener("click",function(e){if(e.target===iv){return;}action(iv.value);});return inp;}
 //cpval is computed value function, call it to compute select options in array form
+
 function createSel(text,cpval,action){var inp = document.createElement("div");inp.className="inputcontainer";var ti = document.createElement("div");ti.innerText=text+":";inp.appendChild(ti);var iv = document.createElement("select");iv.innerHTML="<option>Click to update</option>";
-
-iv.addEventListener("click",function(e){var rvals = cpval(iv);if(rvals){iv.innerHTML="";rvals.forEach(e=>{var opt = document.createElement("option");opt.innerText=e;iv.appendChild(opt);});}});
-
+iv.addEventListener("click",function(e){var rvals = cpval(iv);if(rvals){iv.innerHTML="";rvals.sort().forEach(e=>{var opt = document.createElement("option");opt.innerText=e;iv.appendChild(opt);});}});
 inp.appendChild(iv);inp.addEventListener("click",function(e){if(e.target===iv){return;}action(iv.value);});return inp;}
 
 function createGlobalContainer(){
 var chc = createCheatContainer();
 global.forEach(e=>{
-switch(e.type){case "button":chc.appendChild(createButton(e.name,e.action));break;case "input":chc.appendChild(createInp(e.name,e.action));break;case "select":chc.appendChild(createSel(e.name,e.computed,e.action));break;default:console.log("Unsupported!");break;}
+switch(e.type){case "button":chc.appendChild(createButton(e.name,e.action));break;case "input":chc.appendChild(createInp(e.name,e.action));break;case "select":chc.appendChild(createSel(e.name,e.computed,e.action));break;case "staticsel":chc.appendChild(createStaticSel(e.name,e.values,e.action));break;default:console.log("Unsupported!");break;}
 });
 return chc;
 }
+
+function createStaticSel(text,vals,action){var inp = document.createElement("div");inp.className="inputcontainer";var ti = document.createElement("div");ti.innerText=text+":";inp.appendChild(ti);var iv = document.createElement("select");vals.sort().forEach(e=>{var opt = document.createElement("option");opt.innerText=e;iv.appendChild(opt);});inp.appendChild(iv);inp.addEventListener("click",function(e){if(e.target===iv){return;}action(iv.value);});return inp;}

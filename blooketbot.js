@@ -21,8 +21,8 @@ app.get("/script.js", function(req, res) {
 app.get("/style.css", function(req, res) {
   res.sendFile(path.join(__dirname, "/style.css"));
 });
-const webserver = app.listen(process.env.PORT, function() {
-  console.log('Webserver started on port ' + process.env.PORT + '!');
+const webserver = app.listen(80, function() {
+  console.log('Webserver started on port 80!');
 });
 let wss = new WebSocket.Server({ noServer: true });
 webserver.on('upgrade', (request, socket, head) => {
