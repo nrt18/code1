@@ -6,6 +6,11 @@ var express = require("express");
 const path = require("path");
 const WebSocket = require("ws");
 const app = express();
+import('node-fetch').then(({ default: fetch }) => {
+  global.fetch = fetch;
+}).catch(error => {
+  console.error('Error importing node-fetch:', error);
+});
 request.get("https://play.blooket.com/play",function(a,resp,c){
 global.cookiew = resp.headers["set-cookie"][0].split(";")[0];
 console.log("Blooket Cookie Ready!");

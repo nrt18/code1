@@ -75,7 +75,7 @@ ws.onmessage = function(m){
         break;
         case "bc":
 	botinfo.connected = msg.v;
-	if(msg.v){gameobject={};updateStatus("Joining game...");}else{updateStatus("Bot Disconnected");}
+	if(msg.v){gameobject={};updateStatus("Connected to game");}else{updateStatus("Bot Disconnected");}
 	msg.v?onJoin(botinfo.gc,botinfo.name):onLeave(botinfo.gc,botinfo.name);
         console.log(msg.v?"Bot Connected!":"Bot Disconnected!");
         break;
