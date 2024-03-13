@@ -6,8 +6,6 @@ var express = require("express");
 const path = require("path");
 const WebSocket = require("ws");
 const app = express();
-var game = "5327848";
-var n = "Im not hacking!";
 request.get("https://play.blooket.com/play",function(a,resp,c){
 global.cookiew = resp.headers["set-cookie"][0].split(";")[0];
 console.log("Blooket Cookie Ready!");
