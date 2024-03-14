@@ -27,7 +27,7 @@ type:"select",name:"Set Player's Gold",computed:function(sel){if(Object.keys(gam
 },{
 type:"input",name:"Set Gold",action:function(amt){setUserVal("g",amt);}
 }],"Defense2":[{
-type:"button",name:"Crash host(defense2)",action:function(a){setUserVal("cr/t","t");a.innerText="Crashing";}
+type:"button",name:"Crash host(defense2)",action:function(a){setUserVal("d/t","t");a.innerText="Crashing";}
 },{
 type:"input",name:"Set Damage",action:function(amt){setUserVal("d",amt);}
 },{
