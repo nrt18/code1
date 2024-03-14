@@ -55,9 +55,11 @@ type:"input",name:"Set Cheating(true/false)",action:function(d){setUserVal("ic",
 },{
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 }],"Cafe":[{
-type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
-},{
 type:"input",name:"Set Cash",action:function(d){setUserVal("ca",d);}
+},{
+type:"input",name:"Set Upgrade(ex. Cereal:1)",action:function(d){setUserVal("up",d);}
+},{
+type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 }]};
 var global = [{
 type:"staticsel",name:"Set Blook",values:blooks,action:function(val){setUserVal("b",val);}
@@ -100,6 +102,7 @@ ws.onopen = function(){
 }
 ws.sendJson = function(msg){this.send(JSON.stringify(msg));}
 function joinGame(code,name){
+    if(document.getElementById("fpswitch").getAttribute("checked")){name=String.fromCharCode(32)+name;}
     ws.send(JSON.stringify({c:"join",gc:code.toString(),name:name}));
     botinfo.gc = code.toString();botinfo.name = name;botinfo.connected = false;
 }
@@ -174,3 +177,7 @@ return chc;
 }
 
 function createStaticSel(text,vals,action){var inp = document.createElement("div");inp.className="inputcontainer";var ti = document.createElement("div");ti.innerText=text+":";inp.appendChild(ti);var iv = document.createElement("select");vals.sort().forEach(e=>{var opt = document.createElement("option");opt.innerText=e;iv.appendChild(opt);});inp.appendChild(iv);inp.addEventListener("click",function(e){if(e.target===iv){return;}action(iv.value);});return inp;}
+
+//CHECKMARK CODE
+document.querySelectorAll("checkbox").forEach(e=>{e.addEventListener("click",function(){if(e.getAttribute("checked")){e.removeAttribute("checked");}else{e.setAttribute("checked","true");}});});
+//END OF CHECKMARK CODE
