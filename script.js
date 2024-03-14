@@ -54,6 +54,10 @@ type:"input",name:"Set Fossils",action:function(d){setUserVal("f",d);}
 type:"input",name:"Set Cheating(true/false)",action:function(d){setUserVal("ic",d);}
 },{
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
+}],"Cafe":[{
+type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
+},{
+type:"input",name:"Set Cash",action:function(d){setUserVal("ca",d);}
 }]};
 var global = [{
 type:"staticsel",name:"Set Blook",values:blooks,action:function(val){setUserVal("b",val);}
