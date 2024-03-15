@@ -60,6 +60,12 @@ type:"input",name:"Set Cash",action:function(d){setUserVal("ca",d);}
 type:"input",name:"Set Upgrade(ex. Cereal:1)",action:function(d){setUserVal("up",d);}
 },{
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
+}],"Brawl":[{
+type:"button",name:"Crash host(brawl)",action:function(a){setUserVal("xp/t","t");a.innerText="Crashing";}
+},{
+type:"input",name:"Set XP",action:function(a){setUserVal("xp",a);}
+},,{
+type:"input",name:"Set Upgrade(upgrade:level)",action:function(a){setUserVal("up",a);}
 }]};
 var global = [{
 type:"staticsel",name:"Set Blook",values:blooks,action:function(val){setUserVal("b",val);}
@@ -108,7 +114,7 @@ function joinGame(code,name){
 }
 function onFirstData(d){
 console.log("Game type: " + d.s.t);
-switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;case "Dino":renderCheats("Dino");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
+switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Brawl":renderCheats("Brawl");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;case "Dino":renderCheats("Dino");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
 }
 function onData(d){
 if(!d){console.log("Game disconnected!");errorBar("Game crashed!");leaveGame();finishG();return;}
