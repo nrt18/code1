@@ -114,16 +114,21 @@ exec('yt-dlp -g https://www.youtube.com/watch?v=YQXEUkL9-3U', (err, stdout, stde
 var cmd = 'ffmpeg -i "' + stdout.replace("\n","") + '" -frames:v 1 -y stream.png';
 exec(cmd,function(e,stdout,stderr){console.log(stdout);console.log(stderr);jimp.read("stream.png").then(image=>{image.crop(1061,428,215,50).writeAsync("streamcropped.png").then(e=>{
 //ocr here
-tesseract.recognize("streamcropped.png","eng",{ logger: m => console.log(m) }).then((({ data: { text } })=>{
-var idt = text.split(" ");
-if(idt.length===2&&isValidCode(idt[1])){
-ws.log(idt[1],"id");
+tesseract.recognize("streamcropped.png","eng",{ logger: m => ws.log(JSON.stringify(m),"ocrlog") }).then((({ data: { text } })=>{
+var gamecode = findGameCode(text);
+if(gamecode){
+ws.log(gamecode,"id");
 }
 else{
 ws.log("Text recognition did not find a valid game code but found: " + text,"error");
 }
 }));});});});});}
-function isValidCode(str) {
-  const regex = /^\d{7}$/;
-  return regex.test(str);
+function findGameCode(str) {
+  const regex = /\b\d{7}\b/;
+  const match = str.match(regex);
+  if (match) {
+    return match[0];
+  } else {
+    return null;
+  }
 }

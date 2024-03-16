@@ -80,9 +80,21 @@ ws.onmessage = function(m){
         case "con":
         console.log("Connected!");
         break;
-        case "log":
+         case "log":
         console.log("["+ msg.l +"]" + "[LOG] "+msg.v);
 	if(msg.l==="error"){errorBar(msg.v);}
+	switch(msg.l){
+	case "error":
+	errorBar(msg.v);
+	break;
+	case "id":
+	document.querySelector("#gcode").value=msg.v;
+	break;
+	case "ocrlog":
+	var msgp = JSON.parse(msg.v);
+	console.log(msgp);
+	break;
+      }
         break;
         case "bc":
 	botinfo.connected = msg.v;
