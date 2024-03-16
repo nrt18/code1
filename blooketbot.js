@@ -65,6 +65,7 @@ deleteApp(ws.liveApp);ws.liveApp=false;}
 //bot connect is c:"bc"
 //bot disconnect is c:"bdc"
 async function connectToGame(gid,name,ws){
+console.log("Connecting to game "+gid+" with name "+name);
 const body = await request.put({body:{id:gid,name:name},json:true,uri:"https://fb.blooket.com/c/firebase/join",headers:{Cookie:global.cookiew}});
 if(!body.success){ws.log("Connect Error: " + body.msg, "error");return;}
 try{
