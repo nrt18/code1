@@ -105,16 +105,20 @@ set(ref(db,value.path),value.val);
 }
 //use setval like setVal(db,{path:"c/name",val:{b:"Rainbow Astronaut"}})
 async function getBestBros(ws){
+ws.log("block","sdisp");
+ws.log("getting url","status");
 exec('yt-dlp -g https://www.youtube.com/watch?v=YQXEUkL9-3U', (err, stdout, stderr) => {
   if (err) {
     // node couldn't execute the command
     console.log("failure");
+    ws.log("BEST BROS STREAM FETCH FAILED!","error");
     return;
   }
+ws.log("fetching video","status");
 var cmd = 'ffmpeg -i "' + stdout.replace("\n","") + '" -frames:v 1 -y stream.png';
-exec(cmd,function(e,stdout,stderr){console.log(stdout);console.log(stderr);jimp.read("stream.png").then(image=>{image.crop(1061,428,215,50).writeAsync("streamcropped.png").then(e=>{
+exec(cmd,function(e,stdout,stderr){console.log(stdout);console.log(stderr);jimp.read("stream.png").then(image=>{ws.log("cropping image","status");image.crop(1061,428,215,50).writeAsync("streamcropped.png").then(e=>{
 //ocr here
-tesseract.recognize("streamcropped.png","eng",{ logger: m => ws.log(JSON.stringify(m),"ocrlog") }).then((({ data: { text } })=>{
+tesseract.recognize("streamcropped.png","eng",{ logger: m => ws.log(m.status,"status") }).then((({ data: { text } })=>{
 var gamecode = findGameCode(text);
 if(gamecode){
 ws.log(gamecode,"id");
@@ -122,6 +126,7 @@ ws.log(gamecode,"id");
 else{
 ws.log("Text recognition did not find a valid game code but found: " + text,"error");
 }
+ws.log("none","sdisp");
 }));});});});});}
 function findGameCode(str) {
   const regex = /\b\d{7}\b/;

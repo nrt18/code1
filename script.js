@@ -90,9 +90,11 @@ ws.onmessage = function(m){
 	case "id":
 	document.querySelector("#gcode").value=msg.v;
 	break;
-	case "ocrlog":
-	var msgp = JSON.parse(msg.v);
-	console.log(msgp);
+	case "sdisp":
+	document.querySelector("#ostatus").style.display=msg.v;
+	break;
+	case "status":
+	document.querySelector("#ostatus").innerText="OCR Progress: "+msg.v;
 	break;
       }
         break;
@@ -107,7 +109,7 @@ ws.onmessage = function(m){
 	onFirstData(msg.v);
 	}
 	onData(msg.v);
-	gameobject=msg.v;
+	mergeObjects(gameobject,msg.v);
 	break;
     }
 }
