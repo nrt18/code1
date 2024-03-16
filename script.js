@@ -107,7 +107,7 @@ ws.onmessage = function(m){
 	onFirstData(msg.v);
 	}
 	onData(msg.v);
-	mergeObjects(gameobject,msg.v);
+	gameobject=msg.v;
 	break;
     }
 }
