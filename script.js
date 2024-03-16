@@ -51,7 +51,7 @@ type:"button",name:"Crash host(dino)",action:function(a){setUserVal("f/t","t");a
 },{
 type:"input",name:"Set Fossils",action:function(d){setUserVal("f",d);}
 },{
-type:"input",name:"Set Cheating(true/false)",action:function(d){setUserVal("ic",d);}
+type:"staticsel",name:"Set Cheating",values:["true","false"],action:function(d){setUserVal("ic",d);}
 },{
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 }],"Cafe":[{
