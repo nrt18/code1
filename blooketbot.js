@@ -56,6 +56,9 @@ break;
 case "leave":
 if(ws.liveApp){deleteApp(ws.liveApp);ws.liveApp=false;ws.sendJson({c:"bc",v:false});}
 break;
+case "brosocr":
+try{getBestBros(ws);}catch(e){ws.log("error","Something went wrong: " + e);}
+break;
 }
 });
 ws.on('close', function(){
@@ -101,7 +104,7 @@ function setVal(db,value){
 set(ref(db,value.path),value.val);
 }
 //use setval like setVal(db,{path:"c/name",val:{b:"Rainbow Astronaut"}})
-async function getBestBros(){
+async function getBestBros(ws){
 exec('yt-dlp -g https://www.youtube.com/watch?v=YQXEUkL9-3U', (err, stdout, stderr) => {
   if (err) {
     // node couldn't execute the command
@@ -113,9 +116,14 @@ exec(cmd,function(e,stdout,stderr){console.log(stdout);console.log(stderr);jimp.
 //ocr here
 tesseract.recognize("streamcropped.png","eng",{ logger: m => console.log(m) }).then((({ data: { text } })=>{
 var idt = text.split(" ");
-if(idt.length===2){
-console.log("GAME ID: " + idt[1]);
-}else{
-console.log("NO GAME: " + text);
+if(idt.length===2&&isValidCode(idt[1])){
+ws.log(idt[1],"id");
+}
+else{
+ws.log("Text recognition did not find a valid game code but found: " + text,"error");
 }
 }));});});});});}
+function isValidCode(str) {
+  const regex = /^\d{7}$/;
+  return regex.test(str);
+}

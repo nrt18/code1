@@ -139,6 +139,9 @@ function setVal(dval){
     dval.path = "/"+botinfo.gc+"/"+dval.path;
     ws.send(JSON.stringify({c:"sv",val:dval}));
 }
+function brosOcr(){
+  ws.send(JSON.stringify({c:"brosocr"}));
+}
 function mergeObjects(e,t){for(var o in t)t.hasOwnProperty(o)&&(e.hasOwnProperty(o)&&"object"==typeof e[o]&&"object"==typeof t[o]?mergeObjects(e[o],t[o]):e[o]=t[o])}
 function getTime(){var v = ((Date.now() - new Date(gameobject.s.d).getTime())/60000);return Math.floor(v) + ":" + Math.floor(v*60)%60;}
 
