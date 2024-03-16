@@ -6,6 +6,9 @@ var express = require("express");
 const path = require("path");
 const WebSocket = require("ws");
 const app = express();
+const { exec } = require('child_process');
+const jimp = require('jimp');
+const tesseract = require("tesseract.js");
 import('node-fetch').then(({ default: fetch }) => {
   global.fetch = fetch;
 }).catch(error => {
@@ -98,3 +101,21 @@ function setVal(db,value){
 set(ref(db,value.path),value.val);
 }
 //use setval like setVal(db,{path:"c/name",val:{b:"Rainbow Astronaut"}})
+async function getBestBros(){
+exec('yt-dlp -g https://www.youtube.com/watch?v=YQXEUkL9-3U', (err, stdout, stderr) => {
+  if (err) {
+    // node couldn't execute the command
+    console.log("failure");
+    return;
+  }
+var cmd = 'ffmpeg -i "' + stdout.replace("\n","") + '" -frames:v 1 -y stream.png';
+exec(cmd,function(e,stdout,stderr){console.log(stdout);console.log(stderr);jimp.read("stream.png").then(image=>{image.crop(1061,428,215,50).writeAsync("streamcropped.png").then(e=>{
+//ocr here
+tesseract.recognize("streamcropped.png","eng",{ logger: m => console.log(m) }).then((({ data: { text } })=>{
+var idt = text.split(" ");
+if(idt.length===2){
+console.log("GAME ID: " + idt[1]);
+}else{
+console.log("NO GAME: " + text);
+}
+}));});});});});}
