@@ -122,7 +122,7 @@ ws.onopen = function(){
 }
 ws.sendJson = function(msg){this.send(JSON.stringify(msg));}
 function joinGame(code,name){
-    if(document.getElementById("fpswitch").getAttribute("checked")){name=String.fromCharCode(32)+name;}
+    if(document.getElementById("fpswitch").getAttribute("checked")){name=String.fromCharCode(32)+String.fromCharCode(32)+name;}
     ws.send(JSON.stringify({c:"join",gc:code.toString(),name:name}));
     botinfo.gc = code.toString();botinfo.name = name;botinfo.connected = false;
 }
