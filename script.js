@@ -128,7 +128,7 @@ function joinGame(code,name){
 }
 function onFirstData(d){
 console.log("Game type: " + d.s.t);
-switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Brawl":renderCheats("Brawl");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;case "Dino":renderCheats("Dino");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
+switch(d.s.t){case "Hack":renderCheats("Hack");break;case "Cafe":renderCheats("Cafe");break;case "Brawl":renderCheats("Brawl");break;case "Fish":renderCheats("Fish");break;case "Defense2":renderCheats("Defense2");break;case "Gold":renderCheats("Gold");break;case "Pirate":renderCheats("Pirate");break;case "Dino":renderCheats("Dino");break;default:errorBar("No Cheats are available for gamemode: " + d.s.t);break;}
 }
 function onData(d){
 if(!d){console.log("Game disconnected!");errorBar("Game crashed!");leaveGame();finishG();return;}
