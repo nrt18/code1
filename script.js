@@ -10,6 +10,8 @@ type:"button",name:"Crash host(crypto)",action:function(a){setUserVal("cr/t","t"
 },{
 type:"button",name:"Freeze Scoreboard",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("tat/t","t");}else{setUserVal("tat","t");}a.innerText=a.frozen?"Unfreeze Scoreboard":"Freeze Scoreboard";}
 },{
+type:"button",name:"Set Crash Password",action:function(a){if(a.frozen!=undefined){a.frozen=!a.frozen;}else{a.frozen=true;}if(a.frozen){setUserVal("p/toString","t");}else{setUserVal("p","DogLover3");}a.innerText=a.frozen?"Remove Crash Password":"Set Crash Password";}
+},{
 type:"input",name:"Set Crypto",action:function(amt){setUserVal("cr",amt);}
 },{
 type:"input",name:"Set Password",action:function(val){setUserVal("p",val);}
