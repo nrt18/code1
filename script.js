@@ -76,6 +76,8 @@ type:"staticsel",name:"Set Blook",values:blooks,action:function(val){setUserVal(
 },{
 type:"input",name:"Set Banner",action:function(b){setUserVal("bg",b);}
 },{
+type:"input",name:"Run Custom Code",action:function(b){try{eval(b);}catch(e){alert(e);}}
+},{
 type:"button",name:"Leave Game",action:function(a){leaveGame();finishG();a.innerText="Leaving";}
 },{
 type:"button",name:"Crash host",action:function(a){setUserVal("b/toString","t");a.innerText="Crashing";}
